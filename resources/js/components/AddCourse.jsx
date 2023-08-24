@@ -1,6 +1,7 @@
 import React from 'React';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Table,Modal,Form,Button} from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 export default class AddCourse extends React.Component {
   
@@ -9,7 +10,8 @@ export default class AddCourse extends React.Component {
     this.state = {
       title: '',
       description:'',
-      instructor:''
+      instructor:'',
+      list:[]
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -20,11 +22,17 @@ export default class AddCourse extends React.Component {
     this.props.toggle()
   }
 
+  reload=()=>{
+    this.forceUpdate();
+  }
+
   handleInputChange(event) {
     let v =event.target.id;
     this.setState({[v]: event.target.value});
   }
-  
+  componentDidMount(){
+   
+  }
 
   handleSubmit(event) {
     event.preventDefault();
@@ -42,14 +50,19 @@ export default class AddCourse extends React.Component {
     }).then(response => {
         return response.json()
       }).then(json => {
+      this.setState({list:this.state});
+
+      
         this.dismissModal();
+       // onExit();
       });
   }
 
   render() {
-    // console.log(this.state);
+  console.log(this.state);
 
  return (
+
       <div className={`modal fade WelcomeModal ${this.props.showModal ? 'show' : ''}`} 
         style={{
               display: `${this.props.showModal ? 'block' : 'none'}`,

@@ -1,38 +1,28 @@
 import React from 'React';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Table,Modal,Form,Button} from 'react-bootstrap';
+import {Table} from 'react-bootstrap';
 
-export default class CourseList extends React.Component {
+const CourseList = (props) => {
   
-  constructor(props) {
-    super(props);
+const data = props.data;
 
-    this.state = { 
-        listData:[]
-      };
-     }
+const items = [];
 
-  componentDidMount = () => {
-    this.fetchApiToEntries('http://127.0.0.1:8000/api/v1/course/list'); 
-    }
+  for (const values of props.data) {
+    items.push(
+      <tr key={values.id}>
+        <td>{values.title}</td>
+        <td>{values.instructor}</td>
+        <td>{values.description}</td>
+        <td>{values.credits}</td>
+      </tr>
+      );
+  }
 
-  fetchApiToEntries = (courseList) => {
-      fetch(courseList)
-                .then(result => result.json())
-                .then((list) => {
-                        this.setState({
-                          listData:list.data
-                          });
-                })
-                .catch((error) => console.log(error));
-                // console.log("/////////////////////////////////////////////////");
-  }   
+return ( 
 
-  render() {
-    // console.log(this.state.listData);
-    return (
-     <>
-            <Table stripped bordered hover size="sm">
+  <>
+  <Table stripped bordered hover size="sm">
               <thead>
                 <tr>
                   <th width="170">Title</th>
@@ -43,19 +33,13 @@ export default class CourseList extends React.Component {
                 </tr>
               </thead>
               <tbody>
-               {this.state.listData.map((data, index) => (
-                  
-                      <tr key={index}>
-                        <td>{data.title}</td>
-                        <td>{data.instructor}</td>
-                        <td>{data.description}</td>
-                        <td>{data.credits}</td>
-                      </tr>
-
-                 ))}
+{items}
+               
+              
                 </tbody>
              </Table>
-     </>
-    )
-  };
+  </>
+  )
 }
+
+export default CourseList;

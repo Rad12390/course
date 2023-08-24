@@ -6,20 +6,49 @@ import AddCourse from './AddCourse.jsx';
 import CourseList from './CourseList.jsx';
 
 export default class Course extends React.Component {
-  state={
-    showModal: false
-  }
+  constructor(props) {
+        super(props);
+      
+        // Initializing the state 
+        this.state = { 
+             showModal: false,
+             list:''
+        };
+      }
 
-  
+    
   toggleModal = () => this.setState({
                 showModal: !this.state.showModal
               })
+  componentDidMount = () => {
+     this.fetchApiToEntries(); 
+    }
 
 
+
+  fetchApiToEntries = () => {
+      fetch("http://127.0.0.1:8000/api/v1/course/list")
+                .then(result => result.json())
+                .then((list) => {
+                       this.setState({
+                            list:list.data
+                          });
+
+                })
+                .catch((error) => console.log(error));
+                // console.log("/////////////////////////////////////////////////");
+  }   
 
     render() {
-        
-    const buttonStyle = {marginLeft : '1053px'}
+       
+        const buttonStyle = {marginLeft : '1053px'}
+        const data = this.state.list;
+        // setlists(this.state.list);
+
+
+    
+        // console.log("21341231231232131"+data);
+
         return (
             <div className="container mt-3">
             <div>  
@@ -33,7 +62,7 @@ export default class Course extends React.Component {
             </div>
             
             <div className="row justify-content-center">
-                      <CourseList/>
+                    <CourseList data={data}/>
             </div>
         </div>
         );
