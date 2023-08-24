@@ -25,22 +25,7 @@ export default class AddCourse extends React.Component {
     this.setState({[v]: event.target.value});
   }
   
-  // componentDidMount = () => {
-  //   this.addCourse('http://127.0.0.1:8000/api/v1/course/add'); 
-  // }
 
-  // fetchApiToEntries = (headerEndPoint) => {
-  //     fetch(headerEndPoint)
-  //               .then(result => result.json())
-  //               .then((headerData) => {
-  //                       this.setState({
-  //                         headerData:headerData.header_part
-  //                         });
-  //               })
-  //               .catch((error) => console.log(error));
-  //               // console.log("/////////////////////////////////////////////////");
-  // }
-  
   handleSubmit(event) {
     event.preventDefault();
     fetch('http://127.0.0.1:8000/api/v1/course/add', {
@@ -57,13 +42,12 @@ export default class AddCourse extends React.Component {
     }).then(response => {
         return response.json()
       }).then(json => {
-        this.props.history.push('/dashboard');
         this.dismissModal();
       });
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
 
  return (
       <div className={`modal fade WelcomeModal ${this.props.showModal ? 'show' : ''}`} 
