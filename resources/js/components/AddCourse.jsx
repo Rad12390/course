@@ -13,6 +13,7 @@ export default class AddCourse extends React.Component {
       instructor:'',
       list:[]
     };
+    console.log(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -50,19 +51,18 @@ export default class AddCourse extends React.Component {
     }).then(response => {
         return response.json()
       }).then(json => {
-      this.setState({list:this.state});
-
-      
-        this.dismissModal();
-       // onExit();
+        
+        this.setState({  list:json.course_details });
+        // this.updateState();
+        this.props.updateState(json.course_details);
+        // onExit();
       });
   }
 
   render() {
-  console.log(this.state);
+    console.log(this.state);
 
  return (
-
       <div className={`modal fade WelcomeModal ${this.props.showModal ? 'show' : ''}`} 
         style={{
               display: `${this.props.showModal ? 'block' : 'none'}`,
@@ -93,7 +93,7 @@ export default class AddCourse extends React.Component {
                     </div>
 
                    
-                    <button type="submit" className="btn btn-primary btn-block">Add Course</button>
+                    <button type="submit" className="btn btn-primary btn-block" >Add Course</button>
                 </form>
             </div>
         </div>

@@ -33,7 +33,29 @@ class CourseController extends Controller
         $course->credits = $request->credits;
         
         if($course->save()){
-                   $course->credits = json_decode($request->credits);
+                   $credits = json_decode($request->credits);
+
+                    $final ='[';
+                   
+                    foreach($credits as $k => $v){
+
+                    $final .= '"';
+                    $count =  count((array)$v);
+                    $c = 1;
+                        foreach($v as $k1 => $v1){
+                          // echo $v1;
+                            $final .= $k1.'='.$v1;
+                            if($c != $count) $final .= ",";
+                         $c++;
+                     }
+                    // $final .=$str;
+                    $final .='",';
+
+                    }
+                     $final .=']';
+                    $course->credits = "'".$final."'";
+                  // }
+
                   
                    return response()->json([
                     'status' => true,

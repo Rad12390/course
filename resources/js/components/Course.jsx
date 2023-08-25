@@ -8,14 +8,11 @@ import CourseList from './CourseList.jsx';
 export default class Course extends React.Component {
   constructor(props) {
         super(props);
-      
-        // Initializing the state 
         this.state = { 
              showModal: false,
              list:''
         };
       }
-
     
   toggleModal = () => this.setState({
                 showModal: !this.state.showModal
@@ -23,10 +20,32 @@ export default class Course extends React.Component {
   componentDidMount = () => {
      this.fetchApiToEntries(); 
     }
+  updateState = (data) => {
+
+    this.setState({
+    list: [
+        ...this.state.list,
+        data
+    ]
+});
+
+
+//        let a = this.state.list.slice(); //creates the clone of the state
+// a[] = data;
+// this.setState({list: a});
+
+        // this.setState({
+        //   list:data
+        // });
+        this.toggleModal();
+       
+    }
 
 
 
   fetchApiToEntries = () => {
+//     const [Courses, setCourses] = React.useState([]); 
+
       fetch("http://127.0.0.1:8000/api/v1/course/list")
                 .then(result => result.json())
                 .then((list) => {
@@ -41,6 +60,8 @@ export default class Course extends React.Component {
 
     render() {
        
+      console.log("this.state");
+      console.log(this.state);
         const buttonStyle = {marginLeft : '1053px'}
         const data = this.state.list;
         // setlists(this.state.list);
@@ -56,13 +77,13 @@ export default class Course extends React.Component {
                         <h3>Courses   
                             <button  className="btn btn-primary" onClick={ this.toggleModal} style={buttonStyle}> Add Course </button>
                         </h3>
-                        <AddCourse  toggle = {this.toggleModal} showModal={this.state.showModal}/>
+                        <AddCourse  toggle = {this.toggleModal} updateState={this.updateState} showModal={this.state.showModal}/>
                     </div>
                
             </div>
             
             <div className="row justify-content-center">
-                    <CourseList data={data}/>
+                    <CourseList data={data} />
             </div>
         </div>
         );
